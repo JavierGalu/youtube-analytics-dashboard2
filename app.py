@@ -370,13 +370,9 @@ def mostrar_videos_estrella(df_cliente, canal_cliente):
                                 width=150,
                                 caption=f"VPH: {video["vph"]:.1f}"
                             )
-                            st.markdown(f"""
-                            **{video["titulo"]}**
-                              
-👀 {video["vistas"]:,} vistas
-                              
-⏱️ {video["duracion_formateada"]}
-                            """, unsafe_allow_html=True)
+                            st.markdown(f"**{video["titulo"]}**  
+👀 {video["vistas"]:,} vistas  
+⏱️ {video["duracion_formateada"]}", unsafe_allow_html=True)
                         except Exception as e:
                             st.error(f"Error cargando miniatura para {video["titulo"]}")
                             st.markdown(f"**{video["titulo"]}**  
@@ -741,23 +737,16 @@ def mostrar_galeria_miniaturas(df):
                         )
                         
                         # Información del video
-                        st.markdown(f"""
-                        **{video["formato"]}** | {video["nombre_canal"][:15]}...
-                        
-                        **{video["titulo"]}** 
-                        
-                        👀 {video["vistas"]:,} vistas
-                        """, unsafe_allow_html=True)
+                        st.markdown(f"**{video["formato"]}** | {video["nombre_canal"][:15]}...  
+**{video["titulo"]}**  
+👀 {video["vistas"]:,} vistas  
+", unsafe_allow_html=True)
                         
                     except Exception as e:
                         st.error(f"Error cargando miniatura")
-                        st.markdown(f"""
-                        **{video["formato"]}** | {video["nombre_canal"][:15]}...
-                        
-                        VPH: {video["vph"]:.1f} | 👀 {video["vistas"]:,}
-                        
-                        {video["titulo"][:50]}...
-                        """)
+                        st.markdown(f"**{video["formato"]}** | {video["nombre_canal"][:15]}...  
+VPH: {video["vph"]:.1f} | 👀 {video["vistas"]:,}  
+{video["titulo"][:50]}...", unsafe_allow_html=True)
     
     # Análisis de patrones visuales
     st.markdown("""---""")
