@@ -553,7 +553,191 @@ def mostrar_calendario_seo(df_cliente, canal_cliente):
     <p><strong>SEO = Search Engine Optimization:</strong> Ayuda a que YouTube entienda de qué trata tu video.</p>
     <p><strong>Mejor horario:</strong> Publica cuando tu audiencia está más activa para conseguir más vistas iniciales.</p>
     <p><strong>Descripción completa:</strong> YouTube lee tu descripción para recomendar tu video a las personas correctas.</p>
-    <p><strong>Tags relevante...(content truncated)...st.markdown(f"**{video["formato"]}** | {video["nombre_canal"][:15]}...  
+    <p><strong>Tags relevantes:</strong> Son como etiquetas que ayudan a YouTube a categorizar tu contenido.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+def mostrar_top_videos_nicho(df):
+    st.markdown("<h2 class=\"section-header\">🔍 Top Videos del Nicho</h2>", unsafe_allow_html=True)
+    
+    st.markdown("""
+    ### 📊 Los Videos Más Exitosos de Tu Nicho
+    
+    Estos son los videos con mejor VPH (Vistas Por Hora) en todo el dataset. 
+    Analízalos para entender qué funciona en tu nicho y replica sus estrategias.
+    """)
+    
+    # Separar por formato
+    df_shorts = df[df["formato"] == "Short"]
+    df_largos = df[df["formato"] == "Largo"]
+    
+    # Tabs para separar shorts y largos
+    tab1, tab2 = st.tabs(["📱 Top 200 Shorts", "🎬 Top 200 Videos Largos"])
+    
+    with tab1:
+        if len(df_shorts) > 0:
+            top_shorts = get_top_videos(df_shorts, num_videos=min(200, len(df_shorts)))
+            
+            st.markdown(f"**📱 Top {len(top_shorts)} Shorts por VPH en el nicho:**")
+            
+            # Preparar datos para mostrar
+            display_shorts = top_shorts.copy()
+            display_shorts["VPH"] = display_shorts["vph"].round(1)
+            display_shorts["Vistas"] = display_shorts["vistas"].apply(lambda x: f"{x:,}")
+            display_shorts["Duración"] = display_shorts["duracion_segundos"].apply(lambda x: f"{int(x)}s")
+            display_shorts["Fecha"] = pd.to_datetime(display_shorts["fecha_publicacion"]).dt.strftime("%d/%m/%Y")
+            display_shorts["Canal"] = display_shorts["nombre_canal"]
+            display_shorts["Título"] = display_shorts["titulo"].str[:60] + "..."
+            
+            st.dataframe(
+                display_shorts[["Título", "Canal", "VPH", "Vistas", "Duración", "Fecha"]],
+                use_container_width=True,
+                height=600
+            )
+            
+            # Estadísticas de shorts
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("🏆 VPH Máximo", f"{top_shorts["vph"].max():.1f}")
+            with col2:
+                st.metric("📊 VPH Promedio", f"{top_shorts["vph"].mean():.1f}")
+            with col3:
+                st.metric("⏱️ Duración Promedio", f"{top_shorts["duracion_segundos"].mean():.0f}s")
+        else:
+            st.warning("No se encontraron videos cortos en los datos.")
+    
+    with tab2:
+        if len(df_largos) > 0:
+            top_largos = get_top_videos(df_largos, num_videos=min(200, len(df_largos)))
+            
+            st.markdown(f"**🎬 Top {len(top_largos)} Videos Largos por VPH en el nicho:**")
+            
+            # Preparar datos para mostrar
+            display_largos = top_largos.copy()
+            display_largos["VPH"] = display_largos["vph"].round(1)
+            display_largos["Vistas"] = display_largos["vistas"].apply(lambda x: f"{x:,}")
+            display_largos["Duración"] = display_largos["duracion_segundos"].apply(
+                lambda x: f"{int(x//60)}:{int(x%60):02d}"
+            )
+            display_largos["Fecha"] = pd.to_datetime(display_largos["fecha_publicacion"]).dt.strftime("%d/%m/%Y")
+            display_largos["Canal"] = display_largos["nombre_canal"]
+            display_largos["Título"] = display_largos["titulo"].str[:60] + "..."
+            
+            st.dataframe(
+                display_largos[["Título", "Canal", "VPH", "Vistas", "Duración", "Fecha"]],
+                use_container_width=True,
+                height=600
+            )
+            
+            # Estadísticas de videos largos
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("🏆 VPH Máximo", f"{top_largos["vph"].max():.1f}")
+            with col2:
+                st.metric("📊 VPH Promedio", f"{top_largos["vph"].mean():.1f}")
+            with col3:
+                st.metric("⏱️ Duración Promedio", f"{top_largos["duracion_segundos"].mean()/60:.1f} min")
+        else:
+            st.warning("No se encontraron videos largos en los datos.")
+    
+    # Explicación para niños
+    st.markdown("""
+    <div class="explanation-box">
+    <h4>🤔 ¿Cómo usar esta información?</h4>
+    <p><strong>Analiza los títulos:</strong> ¿Qué palabras usan? ¿Qué patrones ves?</p>
+    <p><strong>Observa las duraciones:</strong> ¿Hay un rango de duración que funciona mejor?</p>
+    <p><strong>Estudia los canales:</strong> ¿Qué canales aparecen más seguido en el top?</p>
+    <p><strong>Replica estrategias:</strong> Adapta las ideas exitosas a tu propio contenido.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+def mostrar_galeria_miniaturas(df):
+    st.markdown("<h2 class=\"section-header\">🖼️ Galería de Miniaturas</h2>", unsafe_allow_html=True)
+    
+    st.markdown("""
+    ### 🎨 Las Miniaturas Más Exitosas del Nicho
+    
+    Estudia estas miniaturas para entender qué elementos visuales funcionan mejor en tu nicho.
+    Observa colores, composición, texto y elementos que llaman la atención.
+    """)
+    
+    # Obtener top videos por VPH
+    top_videos = get_top_videos(df, num_videos=min(200, len(df)))
+    
+    # Filtros para la galería
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        formato_filter = st.selectbox(
+            "📱 Filtrar por formato:",
+            ["Todos", "Short", "Largo"],
+            help="Filtra las miniaturas por tipo de video"
+        )
+    
+    with col2:
+        num_miniaturas = st.slider(
+            "🖼️ Número de miniaturas:",
+            min_value=20,
+            max_value=min(200, len(top_videos)),
+            value=min(100, len(top_videos)),
+            step=20
+        )
+    
+    with col3:
+        columnas = st.selectbox(
+            "📐 Columnas por fila:",
+            [3, 4, 5, 6],
+            index=1,
+            help="Número de miniaturas por fila"
+        )
+    
+    # Aplicar filtros
+    if formato_filter != "Todos":
+        top_videos_filtered = top_videos[top_videos["formato"] == formato_filter]
+    else:
+        top_videos_filtered = top_videos
+    
+    # Limitar número de miniaturas
+    top_videos_display = top_videos_filtered.head(num_miniaturas)
+    
+    st.markdown(f"**🏆 Mostrando las {len(top_videos_display)} miniaturas con mejor VPH:**")
+    
+    # Mostrar estadísticas
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("🎯 VPH Promedio", f"{top_videos_display["vph"].mean():.1f}")
+    with col2:
+        st.metric("👀 Vistas Promedio", f"{top_videos_display["vistas"].mean():,.0f}")
+    with col3:
+        shorts_count = len(top_videos_display[top_videos_display["formato"] == "Short"])
+        st.metric("📱 Shorts", shorts_count)
+    with col4:
+        largos_count = len(top_videos_display[top_videos_display["formato"] == "Largo"])
+        st.metric("🎬 Largos", largos_count)
+    
+    st.markdown("""---""")
+    
+    # Crear filas de miniaturas
+    videos_list = list(top_videos_display.iterrows())
+    
+    for i in range(0, len(videos_list), columnas):
+        cols = st.columns(columnas)
+        
+        for j in range(columnas):
+            if i + j < len(videos_list):
+                idx, video = videos_list[i + j]
+                
+                with cols[j]:
+                    try:
+                        # Mostrar miniatura
+                        st.image(
+                            video["url_miniatura"], 
+                            width=200,
+                            caption=f"VPH: {video["vph"]:.1f}"
+                        )
+                        
+                        # Información del video
+                        st.markdown(f"**{video["formato"]}** | {video["nombre_canal"][:15]}...  
 **{video["titulo"]}**  
 👀 {video["vistas"]:,} vistas  
 ", unsafe_allow_html=True)
