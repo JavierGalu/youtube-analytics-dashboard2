@@ -368,7 +368,7 @@ def mostrar_videos_estrella(df_cliente, canal_cliente):
                             st.image(
                                 video["url_miniatura"],
                                 width=150,
-                                caption=f"VPH: {video[\"vph\"]:.1f}"
+                                caption=f"VPH: {video["vph"]:.1f}"
                             )
                             st.markdown(f"""
                             **{video[\"titulo\"]}**
