@@ -267,7 +267,7 @@ def mostrar_posicionamiento_general(df_cliente, df_competencia, canal_cliente):
     <div class="explanation-box">
     <h4>🤔 ¿Qué buscar en este gráfico?</h4>
     <p><strong>Tus videos (rojos):</strong> ¿Están arriba (alto Índice de Conexión)? Significa que a tu audiencia le encanta lo que haces.</p>
-    <p><strong>Videos de la competencia (grises):</strong> ¿Hay videos de la competencia que tienen un Índice de Conexión muy alto? Mira qué hacen para conectar tanto.</p>
+    <p><strong>Videos de la competencia (grises):</b> ¿Hay videos de la competencia que tienen un Índice de Conexión muy alto? Mira qué hacen para conectar tanto.</p>
     </div>
     """, unsafe_allow_html=True)
 
