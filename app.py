@@ -178,21 +178,21 @@ def mostrar_resumen_ejecutivo(df_cliente, metricas_competencia_dict, canal_clien
     with col1:
         st.metric(
             label="VPH Promedio",
-            value=f"{metricas_cliente[\"avg_vph\"]:.1f}",
+            value=f"{metricas_cliente['avg_vph']:.1f}",
             delta=f"{(metricas_cliente[\"avg_vph\"] - metricas_competencia_dict[\"avg_vph\"]):.1f} vs Competencia",
             delta_color="inverse"
         )
     with col2:
         st.metric(
             label="Índice de Conexión Promedio",
-            value=f"{metricas_cliente[\"avg_connection_index\"]:.1f}%",
+            value=f"{metricas_cliente["avg_connection_index"]:.1f}%",
             delta=f"{(metricas_cliente[\"avg_connection_index\"] - metricas_competencia_dict[\"avg_connection_index\"]):.1f}% vs Competencia",
             delta_color="inverse"
         )
     with col3:
         st.metric(
             label="Duración Promedio",
-            value=f"{metricas_cliente[\"avg_duration\"] / 60:.1f} min",
+            value=f"{metricas_cliente["avg_duration"] / 60:.1f} min",
             delta=f"{(metricas_cliente[\"avg_duration\"] / 60 - metricas_competencia_dict[\"avg_duration\"] / 60):.1f} min vs Competencia",
             delta_color="inverse"
         )
