@@ -388,7 +388,7 @@ VPH: {video["vph"]:.1f}")
     <div class="explanation-box">
     <h4>🤔 ¿Cómo usar esta información?</h4>
     <p><strong>Analiza los títulos:</strong> ¿Qué palabras usaste? ¿Hay preguntas o números?</p>
-    <p><strong>Observa las miniaturas:</strong> ¿Qué las hace atractivas? ¿Qué colores o elementos usaste?</p>
+    <p><strong>Observa las miniaturas:</b> ¿Qué las hace atractivas? ¿Qué colores o elementos usaste?</p>
     <p><strong>Revisa la duración:</strong> ¿Son cortos o largos? ¿Coincide con tu duración óptima?</p>
     <p><strong>Replica el éxito:</strong> Usa estos videos como inspiración para tu próximo contenido.</p>
     </div>
@@ -744,7 +744,7 @@ def mostrar_galeria_miniaturas(df):
                         st.markdown(f"""
                         **{video["formato"]}** | {video["nombre_canal"][:15]}...
                         
-                        {video["titulo"]} 
+                        **{video["titulo"]}** 
                         
                         👀 {video["vistas"]:,} vistas
                         """, unsafe_allow_html=True)
