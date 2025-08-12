@@ -178,22 +178,22 @@ def mostrar_resumen_ejecutivo(df_cliente, metricas_competencia_dict, canal_clien
     with col1:
         st.metric(
             label="VPH Promedio",
-            value=f"{metricas_cliente['avg_vph']:.1f}",
-            delta=f"{(metricas_cliente['avg_vph'] - metricas_competencia_dict['avg_vph']):.1f} vs Competencia",
+            value=f"{metricas_cliente["avg_vph"]:.1f}",
+            delta=f"{(metricas_cliente["avg_vph"] - metricas_competencia_dict["avg_vph"]):.1f} vs Competencia",
             delta_color="inverse"
         )
     with col2:
         st.metric(
             label="Índice de Conexión Promedio",
-            value=f"{metricas_cliente['avg_connection_index']:.1f}%",
-            delta=f"{(metricas_cliente['avg_connection_index'] - metricas_competencia_dict['avg_connection_index']):.1f}% vs Competencia",
+            value=f"{metricas_cliente["avg_connection_index"]:.1f}%",
+            delta=f"{(metricas_cliente["avg_connection_index"] - metricas_competencia_dict["avg_connection_index"]):.1f}% vs Competencia",
             delta_color="inverse"
         )
     with col3:
         st.metric(
             label="Duración Promedio",
-            value=f"{metricas_cliente['avg_duration'] / 60:.1f} min",
-            delta=f"{(metricas_cliente['avg_duration'] / 60 - metricas_competencia_dict['avg_duration'] / 60):.1f} min vs Competencia",
+            value=f"{metricas_cliente["avg_duration"] / 60:.1f} min",
+            delta=f"{(metricas_cliente["avg_duration"] / 60 - metricas_competencia_dict["avg_duration"] / 60):.1f} min vs Competencia",
             delta_color="inverse"
         )
 
@@ -371,16 +371,16 @@ def mostrar_videos_estrella(df_cliente, canal_cliente):
                                 caption=f"VPH: {video["vph"]:.1f}"
                             )
                             st.markdown(f"""
-                            **{video[\"titulo\"]}**
+                            **{video["titulo"]}**
                               
-👀 {video[\"vistas\"]:,} vistas
+👀 {video["vistas"]:,} vistas
                               
-⏱️ {video[\"duracion_formateada\"]}
+⏱️ {video["duracion_formateada"]}
                             """, unsafe_allow_html=True)
                         except Exception as e:
-                            st.error(f"Error cargando miniatura para {video[\"titulo\"]}")
-                            st.markdown(f"**{video[\"titulo\"]}**  
-VPH: {video[\"vph\"]:.1f}")
+                            st.error(f"Error cargando miniatura para {video["titulo"]}")
+                            st.markdown(f"**{video["titulo"]}**  
+VPH: {video["vph"]:.1f}")
     else:
         st.info("No hay videos para mostrar en esta sección.")
 
@@ -408,16 +408,16 @@ def mostrar_optimizacion_titulos(df_cliente, df_competencia, canal_cliente):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.metric("❓ Títulos con Preguntas", f"{patterns[\"preguntas\"]}/20")
+        st.metric("❓ Títulos con Preguntas", f"{patterns["preguntas"]}/20")
     
     with col2:
-        st.metric("🔢 Títulos con Números", f"{patterns[\"numeros\"]}/20")
+        st.metric("🔢 Títulos con Números", f"{patterns["numeros"]}/20")
     
     with col3:
-        st.metric("💪 Palabras de Poder", patterns[\"palabras_poder\"])
+        st.metric("💪 Palabras de Poder", patterns["palabras_poder"])
     
     with col4:
-        st.metric("📏 Longitud Promedio", f"{patterns[\"longitud_promedio\"]:.0f} chars")
+        st.metric("📏 Longitud Promedio", f"{patterns["longitud_promedio"]:.0f} chars")
     
     # Nube de palabras
     st.markdown("### ☁️ Palabras Clave Más Exitosas")
@@ -437,21 +437,21 @@ def mostrar_optimizacion_titulos(df_cliente, df_competencia, canal_cliente):
     seo_recs = generate_seo_recommendations(df_cliente)
     
     # Mostrar top keywords
-    if seo_recs[\"top_keywords\"]:
+    if seo_recs["top_keywords"]:
         st.markdown("#### 🔑 Palabras Clave Más Exitosas:")
-        keywords_df = pd.DataFrame(list(seo_recs[\"top_keywords\"].items()), 
-                                 columns=[\"Palabra Clave\", \"Frecuencia\"])
+        keywords_df = pd.DataFrame(list(seo_recs["top_keywords"].items()), 
+                                 columns=["Palabra Clave", "Frecuencia"])
         st.dataframe(keywords_df, use_container_width=True)
     
     # Plantillas de títulos
-    if seo_recs[\"title_template\"]:
+    if seo_recs["title_template"]:
         st.markdown("#### 📝 Fábrica de Títulos Virales:")
         st.markdown("**Plantillas basadas en tus videos más exitosos:**")
-        for i, template in enumerate(seo_recs[\"title_template\"], 1):
+        for i, template in enumerate(seo_recs["title_template"], 1):
             st.markdown(f"{i}. `{template}`")
     
     # Longitud óptima
-    st.markdown(f"#### 📏 Longitud Óptima de Título: **{seo_recs[\"optimal_title_length\"]:.0f} caracteres**")
+    st.markdown(f"#### 📏 Longitud Óptima de Título: **{seo_recs["optimal_title_length"]:.0f} caracteres**")
     
     # Explicación para niños
     st.markdown("""
@@ -488,15 +488,15 @@ def mostrar_calendario_seo(df_cliente, canal_cliente):
             st.plotly_chart(fig_hours, use_container_width=True)
         
         # Recomendaciones de horarios
-        best_day = day_performance[\"vph\"].idxmax()
-        best_hour = hour_performance[\"vph\"].idxmax()
+        best_day = day_performance["vph"].idxmax()
+        best_hour = hour_performance["vph"].idxmax()
         
         st.markdown(f"""
         ### 🎯 Recomendaciones de Publicación
         
-        **📅 Mejor día:** {best_day} (VPH promedio: {day_performance.loc[best_day, \"vph\"]:.1f})
+        **📅 Mejor día:** {best_day} (VPH promedio: {day_performance.loc[best_day, "vph"]:.1f})
         
-        **🕐 Mejor hora:** {best_hour}:00 (VPH promedio: {hour_performance.loc[best_hour, \"vph\"]:.1f})
+        **🕐 Mejor hora:** {best_hour}:00 (VPH promedio: {hour_performance.loc[best_hour, "vph"]:.1f})
         """)
     
     # Kit de posicionamiento SEO
@@ -545,7 +545,7 @@ def mostrar_calendario_seo(df_cliente, canal_cliente):
     """)
     
     # Análisis de tags (si están disponibles)
-    if \"tags\" in df_cliente.columns:
+    if "tags" in df_cliente.columns:
         st.markdown("#### 🏷️ Análisis de Tags")
         # Aquí iría el análisis de tags si estuvieran disponibles
         st.info("Los tags no están disponibles en este dataset, pero son importantes para SEO.")
@@ -572,8 +572,8 @@ def mostrar_top_videos_nicho(df):
     """)
     
     # Separar por formato
-    df_shorts = df[df[\"formato\"] == \"Short\"]
-    df_largos = df[df[\"formato\"] == \"Largo\"]
+    df_shorts = df[df["formato"] == "Short"]
+    df_largos = df[df["formato"] == "Largo"]
     
     # Tabs para separar shorts y largos
     tab1, tab2 = st.tabs(["📱 Top 200 Shorts", "🎬 Top 200 Videos Largos"])
@@ -586,15 +586,15 @@ def mostrar_top_videos_nicho(df):
             
             # Preparar datos para mostrar
             display_shorts = top_shorts.copy()
-            display_shorts[\"VPH\"] = display_shorts[\"vph\"].round(1)
-            display_shorts[\"Vistas\"] = display_shorts[\"vistas\"].apply(lambda x: f\"{x:,}\")
-            display_shorts[\"Duración\"] = display_shorts[\"duracion_segundos\"].apply(lambda x: f\"{int(x)}s\")
-            display_shorts[\"Fecha\"] = pd.to_datetime(display_shorts[\"fecha_publicacion\"]).dt.strftime(\"%d/%m/%Y\")
-            display_shorts[\"Canal\"] = display_shorts[\"nombre_canal\"]
-            display_shorts[\"Título\"] = display_shorts[\"titulo\"].str[:60] + \"...\"
+            display_shorts["VPH"] = display_shorts["vph"].round(1)
+            display_shorts["Vistas"] = display_shorts["vistas"].apply(lambda x: f"{x:,}")
+            display_shorts["Duración"] = display_shorts["duracion_segundos"].apply(lambda x: f"{int(x)}s")
+            display_shorts["Fecha"] = pd.to_datetime(display_shorts["fecha_publicacion"]).dt.strftime("%d/%m/%Y")
+            display_shorts["Canal"] = display_shorts["nombre_canal"]
+            display_shorts["Título"] = display_shorts["titulo"].str[:60] + "..."
             
             st.dataframe(
-                display_shorts[[\"Título\", \"Canal\", \"VPH\", \"Vistas\", \"Duración\", \"Fecha\"]],
+                display_shorts[["Título", "Canal", "VPH", "Vistas", "Duración", "Fecha"]],
                 use_container_width=True,
                 height=600
             )
@@ -602,11 +602,11 @@ def mostrar_top_videos_nicho(df):
             # Estadísticas de shorts
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.metric("🏆 VPH Máximo", f"{top_shorts[\"vph\"].max():.1f}")
+                st.metric("🏆 VPH Máximo", f"{top_shorts["vph"].max():.1f}")
             with col2:
-                st.metric("📊 VPH Promedio", f"{top_shorts[\"vph\"].mean():.1f}")
+                st.metric("📊 VPH Promedio", f"{top_shorts["vph"].mean():.1f}")
             with col3:
-                st.metric("⏱️ Duración Promedio", f"{top_shorts[\"duracion_segundos\"].mean():.0f}s")
+                st.metric("⏱️ Duración Promedio", f"{top_shorts["duracion_segundos"].mean():.0f}s")
         else:
             st.warning("No se encontraron videos cortos en los datos.")
     
@@ -618,17 +618,17 @@ def mostrar_top_videos_nicho(df):
             
             # Preparar datos para mostrar
             display_largos = top_largos.copy()
-            display_largos[\"VPH\"] = display_largos[\"vph\"].round(1)
-            display_largos[\"Vistas\"] = display_largos[\"vistas\"].apply(lambda x: f\"{x:,}\")
-            display_largos[\"Duración\"] = display_largos[\"duracion_segundos\"].apply(
-                lambda x: f\"{int(x//60)}:{int(x%60):02d}\" if x >= 60 else f\"{int(x)}s\"
+            display_largos["VPH"] = display_largos["vph"].round(1)
+            display_largos["Vistas"] = display_largos["vistas"].apply(lambda x: f"{x:,}")
+            display_largos["Duración"] = display_largos["duracion_segundos"].apply(
+                lambda x: f"{int(x//60)}:{int(x%60):02d}"
             )
-            display_largos[\"Fecha\"] = pd.to_datetime(display_largos[\"fecha_publicacion\"]).dt.strftime(\"%d/%m/%Y\")
-            display_largos[\"Canal\"] = display_largos[\"nombre_canal\"]
-            display_largos[\"Título\"] = display_largos[\"titulo\"].str[:60] + \"...\"
+            display_largos["Fecha"] = pd.to_datetime(display_largos["fecha_publicacion"]).dt.strftime("%d/%m/%Y")
+            display_largos["Canal"] = display_largos["nombre_canal"]
+            display_largos["Título"] = display_largos["titulo"].str[:60] + "..."
             
             st.dataframe(
-                display_largos[[\"Título\", \"Canal\", \"VPH\", \"Vistas\", \"Duración\", \"Fecha\"]],
+                display_largos[["Título", "Canal", "VPH", "Vistas", "Duración", "Fecha"]],
                 use_container_width=True,
                 height=600
             )
@@ -636,11 +636,11 @@ def mostrar_top_videos_nicho(df):
             # Estadísticas de videos largos
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.metric("🏆 VPH Máximo", f"{top_largos[\"vph\"].max():.1f}")
+                st.metric("🏆 VPH Máximo", f"{top_largos["vph"].max():.1f}")
             with col2:
-                st.metric("📊 VPH Promedio", f"{top_largos[\"vph\"].mean():.1f}")
+                st.metric("📊 VPH Promedio", f"{top_largos["vph"].mean():.1f}")
             with col3:
-                st.metric("⏱️ Duración Promedio", f"{top_largos[\"duracion_segundos\"].mean()/60:.1f} min")
+                st.metric("⏱️ Duración Promedio", f"{top_largos["duracion_segundos"].mean()/60:.1f} min")
         else:
             st.warning("No se encontraron videos largos en los datos.")
     
@@ -697,7 +697,7 @@ def mostrar_galeria_miniaturas(df):
     
     # Aplicar filtros
     if formato_filter != "Todos":
-        top_videos_filtered = top_videos[top_videos[\"formato\"] == formato_filter]
+        top_videos_filtered = top_videos[top_videos["formato"] == formato_filter]
     else:
         top_videos_filtered = top_videos
     
@@ -709,18 +709,17 @@ def mostrar_galeria_miniaturas(df):
     # Mostrar estadísticas
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("🎯 VPH Promedio", f"{top_videos_display[\"vph\"].mean():.1f}")
+        st.metric("🎯 VPH Promedio", f"{top_videos_display["vph"].mean():.1f}")
     with col2:
-        st.metric("👀 Vistas Promedio", f"{top_videos_display[\"vistas\"].mean():,.0f}")
+        st.metric("👀 Vistas Promedio", f"{top_videos_display["vistas"].mean():,.0f}")
     with col3:
-        shorts_count = len(top_videos_display[top_videos_display[\"formato\"] == \"Short\"])
+        shorts_count = len(top_videos_display[top_videos_display["formato"] == "Short"])
         st.metric("📱 Shorts", shorts_count)
     with col4:
-        largos_count = len(top_videos_display[top_videos_display[\"formato\"] == \"Largo\"])
+        largos_count = len(top_videos_display[top_videos_display["formato"] == "Largo"])
         st.metric("🎬 Largos", largos_count)
     
-    # Mostrar miniaturas en grilla
-    st.markdown("\""---"\""")
+    st.markdown("""---""")
     
     # Crear filas de miniaturas
     videos_list = list(top_videos_display.iterrows())
@@ -736,37 +735,37 @@ def mostrar_galeria_miniaturas(df):
                     try:
                         # Mostrar miniatura
                         st.image(
-                            video[\"url_miniatura\"], 
+                            video["url_miniatura"], 
                             width=200,
-                            caption=f"VPH: {video[\"vph\"]:.1f}"
+                            caption=f"VPH: {video["vph"]:.1f}"
                         )
                         
                         # Información del video
                         st.markdown(f"""
-                        **{video[\"formato\"]}** | {video[\"nombre_canal\"][:15]}...
+                        **{video["formato"]}** | {video["nombre_canal"][:15]}...
                         
-                        {video[\"titulo\"][:40]}...
+                        {video["titulo"]} 
                         
-                        👀 {video[\"vistas\"]:,} vistas
+                        👀 {video["vistas"]:,} vistas
                         """, unsafe_allow_html=True)
                         
                     except Exception as e:
                         st.error(f"Error cargando miniatura")
                         st.markdown(f"""
-                        **{video[\"formato\"]}** | {video[\"nombre_canal\"][:15]}...
+                        **{video["formato"]}** | {video["nombre_canal"][:15]}...
                         
-                        VPH: {video[\"vph\"]:.1f} | 👀 {video[\"vistas\"]:,}
+                        VPH: {video["vph"]:.1f} | 👀 {video["vistas"]:,}
                         
-                        {video[\"titulo\"][:50]}...
+                        {video["titulo"][:50]}...
                         """)
     
     # Análisis de patrones visuales
-    st.markdown("\""---"\""")
+    st.markdown("""---""")
     st.markdown("### 🔍 Análisis de Patrones Visuales")
     
     # Separar por formato para análisis
-    shorts_miniaturas = top_videos_display[top_videos_display[\"formato\"] == \"Short\"]
-    largos_miniaturas = top_videos_display[top_videos_display[\"formato\"] == \"Largo\"]
+    shorts_miniaturas = top_videos_display[top_videos_display["formato"] == "Short"]
+    largos_miniaturas = top_videos_display[top_videos_display["formato"] == "Largo"]
     
     col1, col2 = st.columns(2)
     
@@ -774,18 +773,18 @@ def mostrar_galeria_miniaturas(df):
         if len(shorts_miniaturas) > 0:
             st.markdown(f"""
             **📱 Patrones en Shorts ({len(shorts_miniaturas)} miniaturas):**
-            - VPH promedio: {shorts_miniaturas[\"vph\"].mean():.1f}
-            - Vistas promedio: {shorts_miniaturas[\"vistas\"]}.mean():,.0f}
-            - Canales más exitosos: {\", \".join(shorts_miniaturas[\"nombre_canal\"].value_counts().head(3).index)}
+            - VPH promedio: {shorts_miniaturas["vph"].mean():.1f}
+            - Vistas promedio: {shorts_miniaturas["vistas"].mean():,.0f}
+            - Canales más exitosos: {", ".join(shorts_miniaturas["nombre_canal"].value_counts().head(3).index)}
             """)
     
     with col2:
         if len(largos_miniaturas) > 0:
             st.markdown(f"""
             **🎬 Patrones en Videos Largos ({len(largos_miniaturas)} miniaturas):**
-            - VPH promedio: {largos_miniaturas[\"vph\"].mean():.1f}
-            - Vistas promedio: {largos_miniaturas[\"vistas\"]}.mean():,.0f}
-            - Canales más exitosos: {\", \".join(largos_miniaturas[\"nombre_canal\"].value_counts().head(3).index)}
+            - VPH promedio: {largos_miniaturas["vph"].mean():.1f}
+            - Vistas promedio: {largos_miniaturas["vistas"].mean():,.0f}
+            - Canales más exitosos: {", ".join(largos_miniaturas["nombre_canal"].value_counts().head(3).index)}
             """)
     
     # Explicación para niños
