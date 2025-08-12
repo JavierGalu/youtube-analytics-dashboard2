@@ -23,8 +23,8 @@ def load_and_preprocess_data(file_path):
     if \'vph\' not in df.columns:
         df["vph"] = df["vistas"] / (df["horas_desde_pub"] + 0.001) # Evitar división por cero
 
-    # Clasificar Formato (Shorts vs. Largos)
-    df["formato"] = df["duracion_segundos"].apply(lambda x: \'Short\' if x < 60 else \'Largo\')
+    # Clasificar Formato (Shorts vs. Largos) - CORREGIDO A 180 SEGUNDOS
+    df["formato"] = df["duracion_segundos"].apply(lambda x: \'Short\' if x < 180 else \'Largo\')
 
     # Calcular Índice de Conexión
     df["indice_conexion"] = ((df["likes"] + df["comentarios"] * 2) / (df["vistas"] + 0.001)) * 100
