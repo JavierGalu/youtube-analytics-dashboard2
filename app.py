@@ -179,21 +179,21 @@ def mostrar_resumen_ejecutivo(df_cliente, metricas_competencia_dict, canal_clien
         st.metric(
             label="VPH Promedio",
             value=f"{metricas_cliente['avg_vph']:.1f}",
-            delta=f"{(metricas_cliente[\"avg_vph\"] - metricas_competencia_dict[\"avg_vph\"]):.1f} vs Competencia",
+            delta=f"{(metricas_cliente['avg_vph'] - metricas_competencia_dict['avg_vph']):.1f} vs Competencia",
             delta_color="inverse"
         )
     with col2:
         st.metric(
             label="Índice de Conexión Promedio",
-            value=f"{metricas_cliente["avg_connection_index"]:.1f}%",
-            delta=f"{(metricas_cliente[\"avg_connection_index\"] - metricas_competencia_dict[\"avg_connection_index\"]):.1f}% vs Competencia",
+            value=f"{metricas_cliente['avg_connection_index']:.1f}%",
+            delta=f"{(metricas_cliente['avg_connection_index'] - metricas_competencia_dict['avg_connection_index']):.1f}% vs Competencia",
             delta_color="inverse"
         )
     with col3:
         st.metric(
             label="Duración Promedio",
-            value=f"{metricas_cliente["avg_duration"] / 60:.1f} min",
-            delta=f"{(metricas_cliente[\"avg_duration\"] / 60 - metricas_competencia_dict[\"avg_duration\"] / 60):.1f} min vs Competencia",
+            value=f"{metricas_cliente['avg_duration'] / 60:.1f} min",
+            delta=f"{(metricas_cliente['avg_duration'] / 60 - metricas_competencia_dict['avg_duration'] / 60):.1f} min vs Competencia",
             delta_color="inverse"
         )
 
@@ -748,7 +748,7 @@ def mostrar_galeria_miniaturas(df):
                         {video[\"titulo\"][:40]}...
                         
                         👀 {video[\"vistas\"]:,} vistas
-                        """, help=f"Título completo: {video[\"titulo\"]}")
+                        """, unsafe_allow_html=True)
                         
                     except Exception as e:
                         st.error(f"Error cargando miniatura")
@@ -808,16 +808,16 @@ def mostrar_glosario():
     <p>El VPH mide qué tan rápido un video consigue vistas después de ser publicado. Es como la velocidad a la que se hace popular. Un VPH alto significa que el video está funcionando muy bien desde el principio.</p>
     
     <h4>Índice de Conexión</h4>
-    <p>Este índice nos dice cuánto le gusta tu contenido a la gente. Se calcula viendo cuántos 'me gusta' y comentarios tiene un video en comparación con sus vistas. Un índice alto significa que tu audiencia se conecta mucho con lo que haces.</p>
+    <p>Este índice nos dice cuánto le gusta tu contenido a la gente. Se calcula viendo cuántos \'me gusta\' y comentarios tiene un video en comparación con sus vistas. Un índice alto significa que tu audiencia se conecta mucho con lo que haces.</p>
     
     <h4>Índice CLARA™</h4>
     <p>CLARA es una métrica especial que combina varias cosas importantes de un video (como el VPH, el Índice de Conexión y las vistas) para darte una idea general de su éxito. Es como una puntuación total de lo bien que lo está haciendo un video.</p>
     
     <h4>Shorts vs. Videos Largos</h4>
-    <p>YouTube tiene dos tipos principales de videos: los 'Shorts' que son videos muy cortitos (menos de 1 minuto) y los 'Videos Largos' que duran más. Analizamos cuál de los dos funciona mejor para tu canal y para tu nicho.</p>
+    <p>YouTube tiene dos tipos principales de videos: los \'Shorts\' que son videos muy cortitos (menos de 1 minuto) y los \'Videos Largos\' que duran más. Analizamos cuál de los dos funciona mejor para tu canal y para tu nicho.</p>
     
     <h4>Buckets Temáticos</h4>
-    <p>Son como 'categorías' o 'grupos' de temas. Agrupamos tus videos por el tema principal del que hablan para ver qué tipo de contenido es el más popular y exitoso en tu canal.</p>
+    <p>Son como \'categorías\' o \'grupos\' de temas. Agrupamos tus videos por el tema principal del que hablan para ver qué tipo de contenido es el más popular y exitoso en tu canal.</p>
     
     <h4>Miniatura</h4>
     <p>Es la imagen de portada de tu video. Es muy importante porque es lo primero que la gente ve y decide si hace clic o no. Analizamos las miniaturas más exitosas para que aprendas a hacer las tuyas.</p>
