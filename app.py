@@ -290,12 +290,12 @@ def mostrar_estrategia_contenido(df_cliente, canal_cliente):
     col1, col2 = st.columns(2)
     with col1:
         st.metric("Total Shorts", strategy_analysis["shorts"]["count"])
-        st.metric("VPH Promedio Shorts", f"{strategy_analysis[\"shorts\"][\"avg_vph\"]:.1f}")
-        st.metric("Vistas Promedio Shorts", f"{strategy_analysis[\"shorts\"][\"avg_views\"]:.0f}")
+        st.metric("VPH Promedio Shorts", f"{strategy_analysis["shorts"]["avg_vph"]:.1f}")
+        st.metric("Vistas Promedio Shorts", f"{strategy_analysis["shorts"]["avg_views"]:.0f}")
     with col2:
         st.metric("Total Videos Largos", strategy_analysis["largos"]["count"])
-        st.metric("VPH Promedio Largos", f"{strategy_analysis[\"largos\"][\"avg_vph\"]:.1f}")
-        st.metric("Vistas Promedio Largos", f"{strategy_analysis[\"largos\"][\"avg_views\"]:.0f}")
+        st.metric("VPH Promedio Largos", f"{strategy_analysis["largos"]["avg_vph"]:.1f}")
+        st.metric("Vistas Promedio Largos", f"{strategy_analysis["largos"]["avg_views"]:.0f}")
 
     fig_format_dist = create_format_distribution_chart(strategy_analysis)
     st.plotly_chart(fig_format_dist, use_container_width=True)
